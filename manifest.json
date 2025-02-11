@@ -2,11 +2,7 @@
     "manifest_version": 3,
     "name": "AdFriend",
     "version": "1.0",
-    "icons": {
-    "16": "",
-    "48": "",
-    "128": ""
-    },
+    
     "permissions": [
     "storage",
     "scripting",
