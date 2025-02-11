@@ -1,10 +1,28 @@
 {
     "manifest_version": 3,
-    "name": "UC Grabber",
-    "version": "0.1",
+    "name": "AdFriend",
+    "version": "1.0",
+    "icons": {
+    "16": "",
+    "48": "",
+    "128": ""
+    },
+    "permissions": [
+    "storage",
+    "scripting",
+    "activeTab"
+    ],
     
     "browser_action": {
-      "default_popup": "html/popup.html",
-      "default_title": "Grabber for uChicago Canvas!"
-    }
+      "default_popup": "popup.html",
+      "default_title": "Replaces ads with motivational quotes and activity reminders"
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content.js"],
+            "css": ["styles.css"]
+        }
+    ]
+
   }
