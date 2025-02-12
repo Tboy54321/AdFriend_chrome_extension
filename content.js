@@ -1,42 +1,50 @@
-const quotes = [
-    "Believe in yourself!",
-    "You are stronger than you think.",
-    "Stay positive, work hard, make it happen.",
-    "Every day is a fresh start.",
-    "Dream big and dare to fail."
-];
+async function fetchMotivationalQuote() {
+    try {
+        let response = await fetch("https://api.quotable.io/random?tags=inspirational");
+        let data = await response.json();
+        return data.content || "Stay positive and keep pushing forward!";
+    } catch (error) {
+        console.error("Error fetching quote:", error);
+        return "Keep going! You got this! 💪";
+    }
+}
 
-const activities = [
-    "Have you stretched today?",
-    "Take a deep breath and relax.",
-    "Drink a glass of water!",
-    "Stand up and move for a minute.",
-    "Time for a quick break!"
-];
+async function replaceAds() {
+    console.log("AdFriend: Replacing ads...");
 
-function replaceAds() {
-    const adSelectors = [
-        "iframe", "ins", ".adsbygoogle", "[id^='ad']",
-        "[class*='ad']", "[class*='banner']",
-        "[class*='sponsor']", "[data-adblock]"
-    ];
+    chrome.storage.sync.get(["contentType", "customMessage"], async function (data) {
+        let contentType = data.contentType || "quote";  // Default to quotes
+        let customMessage = data.customMessage || "Stay focused and motivated! 🚀";
 
-    adSelectors.forEach(selector => {
-        document.querySelectorAll(selector).forEach(ad => {
-            if (ad && ad.parentElement) {
-                const widget = document.createElement("div");
-                widget.className = "adfriend-widget";
-                widget.innerText = Math.random() > 0.5
-                    ? quotes[Math.floor(Math.random() * quotes.length)]
-                    : activities[Math.floor(Math.random() * activities.length)];
+        let contentToDisplay = "";
 
-                ad.parentElement.replaceChild(widget, ad);
-            }
+        if (contentType === "quote") {
+            contentToDisplay = await fetchMotivationalQuote();
+        } else if (contentType === "reminder") {
+            contentToDisplay = "💪 Time for a quick stretch or a deep breath!";
+        } else if (contentType === "custom") {
+            contentToDisplay = customMessage;
+        }
+
+        let adSelectors = ["iframe", "div[class*='ad']", "ins.adsbygoogle"];
+        adSelectors.forEach(selector => {
+            document.querySelectorAll(selector).forEach(ad => {
+                ad.style.display = "none";
+
+                let replacement = document.createElement("div");
+                replacement.innerText = contentToDisplay;
+                replacement.style.background = "#ffdd57";
+                replacement.style.padding = "20px";
+                replacement.style.color = "black";
+                replacement.style.fontSize = "18px";
+                ad.replaceWith(replacement);
+            });
         });
+
+        console.log("Ads replaced with:", contentToDisplay);
     });
 }
 
-window.onload = () => {
-    replaceAds();
-    setInterval(replaceAds, 5000);
-};
+replaceAds();
+
+setInterval(replaceAds, 5000);
