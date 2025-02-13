@@ -42,16 +42,13 @@
         input[type="radio"] {
             margin-right: 10px;
         }
-        textarea, .custom-reminders input {
+        textarea {
             width: 100%;
-            height: 40px;
+            height: 80px;
             margin-top: 10px;
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            display: none;
-        }
-        .custom-reminders {
             display: none;
         }
         button {
@@ -89,21 +86,14 @@
     
         <textarea id="customText" placeholder="Enter custom text..."></textarea>
     
-        <div class="custom-reminders" id="customReminders">
-            <input type="text" placeholder="Reminder 1">
-            <input type="text" placeholder="Reminder 2">
-            <input type="text" placeholder="Reminder 3">
-        </div>
-    
         <button id="save">Save Preferences</button>
     </div>
     
     <script>
         document.querySelectorAll('input[name="contentType"]').forEach(radio => {
             radio.addEventListener('change', function() {
-                const isCustom = document.getElementById('customOption').checked;
-                document.getElementById('customText').style.display = isCustom ? 'block' : 'none';
-                document.getElementById('customReminders').style.display = isCustom ? 'block' : 'none';
+                document.getElementById('customText').style.display = 
+                    document.getElementById('customOption').checked ? 'block' : 'none';
             });
         });
     </script>

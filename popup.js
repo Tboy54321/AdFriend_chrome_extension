@@ -23,8 +23,15 @@ document.addEventListener("DOMContentLoaded", function () {
         let selectedContentType = document.querySelector("input[name='contentType']:checked").value;
         let customMessage = customText.value;
 
+        console.log("Saving preferences:", { selectedContentType, customMessage });
+
         chrome.storage.sync.set({ contentType: selectedContentType, customMessage: customMessage }, function () {
-            alert("Preferences saved!");
+            if (chrome.runtime.lastError) {
+                console.error("Error saving preferences:", chrome.runtime.lastError);
+            } else {
+                console.log("Preferences saved successfully!");
+                alert("Preferences saved!");
+            }
         });
     });
 });
