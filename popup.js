@@ -1,3 +1,10 @@
+document.querySelectorAll('input[name="contentType"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        document.getElementById('customText').style.display = 
+            document.getElementById('customOption').checked ? 'block' : 'none';
+    });
+});
+
 document.addEventListener("DOMContentLoaded", function () {
     let contentTypeRadios = document.querySelectorAll("input[name='contentType']");
     let customText = document.getElementById("customText");
