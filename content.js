@@ -13,7 +13,7 @@ async function replaceAds() {
     console.log("AdFriend: Replacing ads...");
 
     chrome.storage.sync.get(["contentType", "customMessage"], async function (data) {
-        let contentType = data.contentType || "quote";  // Default to quotes
+        let contentType = data.contentType || "quote";
         let customMessage = data.customMessage || "Stay focused and motivated! 🚀";
 
         let contentToDisplay = "";
@@ -37,6 +37,27 @@ async function replaceAds() {
                 replacement.style.padding = "20px";
                 replacement.style.color = "black";
                 replacement.style.fontSize = "18px";
+                replacement.style.position = "relative";
+                replacement.style.border = "1px solid #ccc";
+                replacement.style.borderRadius = "5px";
+                replacement.style.boxShadow = "0 2px 5px rgba(0, 0, 0, 0.2)";
+                replacement.style.marginBottom = "10px";
+                replacement.style.maxWidth = "300px";
+
+                let closeButton = document.createElement("span");
+                closeButton.innerHTML = "&times;";
+                closeButton.style.position = "absolute";
+                closeButton.style.top = "5px";
+                closeButton.style.right = "10px";
+                closeButton.style.cursor = "pointer";
+                closeButton.style.fontSize = "18px";
+                closeButton.style.color = "#333";
+                closeButton.style.fontWeight = "bold";
+
+                closeButton.addEventListener("click", function () {
+                    replacement.remove();
+                });
+                replacement.appendChild(closeButton);
                 ad.replaceWith(replacement);
             });
         });
