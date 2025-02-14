@@ -2,6 +2,7 @@ async function fetchMotivationalQuote() {
     try {
         let response = await fetch("https://api.quotable.io/random?tags=inspirational");
         let data = await response.json();
+        console.log(data.content)
         return data.content || "Stay positive and keep pushing forward!";
     } catch (error) {
         console.error("Error fetching quote:", error);
