@@ -27,7 +27,17 @@ async function replaceAds() {
             contentToDisplay = customMessage;
         }
 
-        let adSelectors = ["iframe", "div[class*='ad']", "ins.adsbygoogle"];
+        let adSelectors = ['[id*="ads"]',
+                            '[class*="ads"]',
+                            '[aria-label*="advertisement"]',
+                            '[aria-label*="Sponsored"]',
+                            'iframe[src*="ads"]',
+                            'div[data-ad-feedback]',
+                            'ins.adsbygoogle',
+                            '.ad-container',
+                            '.sponsored',
+                            'ytd-promoted-video-renderer'
+                        ];
         adSelectors.forEach(selector => {
             document.querySelectorAll(selector).forEach(ad => {
                 ad.style.display = "none";
